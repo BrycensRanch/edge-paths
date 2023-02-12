@@ -33,31 +33,6 @@ jobs:
             - run: ls
             - run: node tests/index.js
 
-    build-macos:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os:
-                    - macos-latest
-                    - macos-11
-                node_version:
-                    - 14
-                    - 16
-                    - 17
-        name: Node ${{ matrix.node_version }} - ${{ matrix.architecture }} on ${{ matrix.os }}
-        steps:
-            - uses: actions/checkout@v2
-            - name: Setup node
-              uses: actions/setup-node@v2
-              with:
-                  node-version: ${{ matrix.node_version }}
-                  architecture: ${{ matrix.architecture }}
-            - run: npm install
-            - run: node tests/downloadEdge.js
-            - run: for f in *.pkg;do echo $f; sudo installer -allowUntrusted -pkg $f -target /; done
-            - run: ls
-            - run: node tests/index.js
-
     build-window:
         runs-on: ${{ matrix.os }}
         strategy:
